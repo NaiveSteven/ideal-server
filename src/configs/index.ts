@@ -2,19 +2,19 @@ const configs = {
   development: {
     server: {
       host: 'localhost',
-      port: 8080
+      port: 3000
     }
   },
   test: {
     server: {
       host: 'localhost',
-      port: 8080
+      port: 3000
     }
   },
   production: {
     server: {
       host: 'localhost',
-      port: 8080
+      port: 3000
     }
   },
 };

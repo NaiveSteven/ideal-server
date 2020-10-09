@@ -1,15 +1,28 @@
 import configs from './configs';
-import Koa, { Context } from 'Koa';
+import Koa, { Context, Next } from 'Koa';
 import { bootstrapControllers } from 'koa-ts-controllers';
 import KoaRouter from 'koa-router';
 import path from 'path';
-import KoaBodyParser from 'koa-bodyparser';
+import KoaBody from 'koa-body';
 import Boom from '@hapi/Boom';
 
 (async () => {
   const app = new Koa();
 
   const router = new KoaRouter();
+
+  const cors = require('koa2-cors');
+
+  const json = require('koa-json');
+
+  app.use(cors({
+    origin: '*',
+    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+    maxAge: 5,
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'DELETE'],
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  }));
 
   // 注册路由
   await bootstrapControllers(app, {
@@ -41,11 +54,8 @@ import Boom from '@hapi/Boom';
     }
   });
 
-  // router.all('*', async ctx => {
-  //   throw Boom.notFound('没有该路由');
-  // });
-
-  app.use(KoaBodyParser());
+  app.use(json());
+  app.use(KoaBody());
   app.use(router.routes());
 
   app.listen(configs.server.port, configs.server.host, () => {
