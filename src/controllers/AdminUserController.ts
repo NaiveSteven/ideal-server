@@ -9,6 +9,11 @@ import {
 } from 'koa-ts-controllers';
 import { Context } from 'koa';
 import { AdminUserBody } from '../validators/AdminUser';
+import { AdminUser as adminUserModel } from '../models/AdminUser';
+import jwt from 'jsonwebtoken';
+import Boom from '@hapi/Boom';
+import configs from '../configs';
+import { constants } from 'fs';
 
 @Controller('/admin')
 class AdminUserController {
@@ -18,22 +23,38 @@ class AdminUserController {
     @Ctx() ctx: Context,
     @Body() body: AdminUserBody
   ) {
-    let { username, password } = body;
-    if (username !== '18851382719') {
+    const { username, password } = body;
+
+    const adminUser = await adminUserModel.findOne({
+      where: { username }
+    });
+
+    if (!adminUser) {
       return {
         state: -1,
-        message: '用户名不正确',
+        message: '用户不存在',
       };
     }
-    if (password !== '123456') {
+
+    if (password !== adminUser.password) {
       return {
         state: -1,
         message: '密码不正确',
       };
     }
+    const userInfo = {
+      id: adminUser.id,
+      username: adminUser.username,
+    };
+
+    const token = jwt.sign(userInfo, configs.jwt.privateKey);
+
     return {
       state: 1,
-      data: true,
+      data: {
+        userInfo,
+        token,
+      },
     }
   }
 }

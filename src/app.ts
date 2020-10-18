@@ -4,6 +4,7 @@ import { bootstrapControllers } from 'koa-ts-controllers';
 import KoaRouter from 'koa-router';
 import path from 'path';
 import KoaBody from 'koa-body';
+import { Sequelize } from 'sequelize-typescript';
 import Boom from '@hapi/Boom';
 
 (async () => {
@@ -14,6 +15,12 @@ import Boom from '@hapi/Boom';
   const cors = require('koa2-cors');
 
   const json = require('koa-json');
+
+  // 链接数据库
+  const db = new Sequelize({
+    ...configs.database,
+    models: [__dirname + '/models/**/*']
+  });
 
   app.use(cors({
     origin: '*',
@@ -32,26 +39,26 @@ import Boom from '@hapi/Boom';
     controllers: [
       path.resolve(__dirname, 'controllers/**/*')
     ],
-    errorHandler: async (err: any, ctx: Context) => {
-      let status = 500;
-      let body: any = {
-        status: status,
-        error: 'error',
-        message: 'error message'
-      };
+    // errorHandler: async (err: any, ctx: Context) => {
+    //   let status = 500;
+    //   let body: any = {
+    //     status: status,
+    //     error: 'error',
+    //     message: 'error message'
+    //   };
 
-      if (err.output) {
-        status = err.output.statusCode;
-        body = {
-          ...err.output.payload
-        };
-        if (err.data) {
-          body.errorDetails = err.data;
-        }
-      }
-      ctx.status = status;
-      ctx.body = body;
-    }
+    //   if (err.output) {
+    //     status = err.output.statusCode;
+    //     body = {
+    //       ...err.output.payload
+    //     };
+    //     if (err.data) {
+    //       body.errorDetails = err.data;
+    //     }
+    //   }
+    //   ctx.status = status;
+    //   ctx.body = body;
+    // }
   });
 
   app.use(json());
