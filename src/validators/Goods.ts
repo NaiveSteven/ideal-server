@@ -8,8 +8,9 @@ export class GetGoodsListBody {
 }
 
 export class AddGoodsBody {
-
   name: string;
+
+  brandId: number;
 
   goodsTypeId: number;
 
@@ -18,12 +19,21 @@ export class AddGoodsBody {
   count: number;
 
   price: number;
+
+  marketPrice: number;
+
+  state: number;
+
+  size: string;
+
+  imageUrl: string;
 }
 
 export class UpdateGoodsBody {
-
   id: number;
 
+  brandId: number;
+  
   name: string;
 
   goodsTypeId: number;
@@ -33,6 +43,14 @@ export class UpdateGoodsBody {
   count: number;
 
   price: number;
+
+  marketPrice: number;
+
+  state: number;
+
+  size: number;
+
+  imageUrl: string;
 }
 
 export class DeleteGoodsBody {

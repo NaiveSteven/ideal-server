@@ -47,7 +47,7 @@ class GoodsController {
     @Ctx() ctx: Context,
     @Body() body: AddGoodsBody
   ) {
-    let { name, goodsTypeId, price, desc, count } = body;
+    let { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId } = body;
 
     let goods = new GoodsModel();
 
@@ -56,6 +56,11 @@ class GoodsController {
     goods.desc = desc;
     goods.count = count;
     goods.price = price;
+    goods.marketPrice = marketPrice;
+    goods.imageUrl = imageUrl;
+    goods.size = size;
+    goods.brandId = brandId;
+    goods.state = 1;
     await goods.save();
 
     ctx.status = 201;
@@ -70,7 +75,7 @@ class GoodsController {
     @Ctx() ctx: Context,
     @Body() body: UpdateGoodsBody
   ) {
-    let { name, goodsTypeId, price, desc, count, id } = body;
+    let { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId } = body;
     let goods = await GoodsModel.findByPk(id);
 
     goods.name = name || goods.name;
@@ -78,6 +83,11 @@ class GoodsController {
     goods.desc = desc || goods.desc;
     goods.count = count || goods.count;
     goods.price = price || goods.price;
+    goods.marketPrice = marketPrice || goods.marketPrice;
+    goods.imageUrl = imageUrl || goods.imageUrl;
+    goods.size = size || goods.size;
+    goods.brandId = brandId || goods.brandId;
+    goods.state = goods.state;
     await goods.save();
 
     // ctx.status = 204;
