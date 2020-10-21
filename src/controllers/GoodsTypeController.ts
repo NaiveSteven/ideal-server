@@ -11,7 +11,7 @@ import { Context } from 'koa';
 import { GetGoodsListBody, AddGoodsTypeBody, UpdateGoodsTypeBody, DeleteGoodsTypeBody } from '../validators/GoodsType';
 import { GoodsType as GoodsTypeModel } from '../models/GoodsType';
 
-@Controller('/goods')
+@Controller('/goodsType')
 class GoodsTypeController {
 
   @Post('/getGoodsTypeList')

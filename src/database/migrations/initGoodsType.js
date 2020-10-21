@@ -29,6 +29,6 @@ module.exports = {
     },
 
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('BoardListCard');
+        return queryInterface.dropTable('GoodsType');
     }
 };
