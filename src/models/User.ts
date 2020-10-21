@@ -48,6 +48,13 @@ export class User extends Model<User> {
     })
     name: string;
 
+    // 积分
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
+    integral: number;
+
     // @AllowNull(false)
     // @Column({
     //     type: DataType.STRING(32),

@@ -19,6 +19,10 @@ module.exports = {
                 type: Sequelize.STRING(32),
                 allowNull: false
             },
+            integral: {
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
             createdAt: {
                 type: Sequelize.DATE,
                 allowNull: false
