@@ -7,7 +7,7 @@ import {
 import { Context } from 'koa';
 import { GetBrandListBody, AddBrandBody, UpdateBrandBody, DeleteBrandBody } from '../validators/Brand';
 import { Brand as BrandModel } from '../models/Brand';
-import { getUncertainSqlObj, resMsg } from '../utils/Utils';
+import { getUncertainSqlObj, resMsg, addAttr } from '../utils/Utils';
 
 @Controller('/brand')
 class BrandController {
@@ -41,10 +41,8 @@ class BrandController {
   ) {
     try {
       const { name, adminUserId } = body;
-      const brand = new BrandModel();
-      brand.name = name;
-      brand.adminUserId = adminUserId;
-
+      let brand = new BrandModel();
+      brand = addAttr(brand, { name, adminUserId });
       await brand.save();
       return resMsg(200, brand, 1);
     } catch (error) {
@@ -66,7 +64,6 @@ class BrandController {
         };
       }
       brand.name = body.name || brand.name;
-
       await brand.save();
       return resMsg(200, brand, 1);
     } catch (error) {
@@ -87,7 +84,6 @@ class BrandController {
           message: '禁止访问该品牌',
         };
       }
-
       await brand.destroy();
       return resMsg(200, [], 1);
     } catch (error) {

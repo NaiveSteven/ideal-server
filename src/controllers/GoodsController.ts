@@ -7,7 +7,7 @@ import {
 import { Context } from 'koa';
 import { GetGoodsListBody, AddGoodsBody, UpdateGoodsBody, DeleteGoodsBody } from '../validators/Goods';
 import { Goods as GoodsModel } from '../models/Goods';
-import { getUncertainSqlObj, resMsg } from '../utils/Utils';
+import { getUncertainSqlObj, resMsg, addAttr, updateAttr } from '../utils/Utils';
 
 @Controller('/goods')
 class GoodsController {
@@ -42,16 +42,8 @@ class GoodsController {
   ) {
     try {
       const { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId } = body;
-      const goods = new GoodsModel();
-      goods.name = name;
-      goods.goodsTypeId = goodsTypeId;
-      goods.desc = desc;
-      goods.count = count;
-      goods.price = price;
-      goods.marketPrice = marketPrice;
-      goods.imageUrl = imageUrl;
-      goods.size = size;
-      goods.brandId = brandId;
+      let goods = new GoodsModel();
+      goods = addAttr(goods, { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId });
       goods.state = 1;
       await goods.save();
       return resMsg(200, goods, 1);
@@ -67,18 +59,9 @@ class GoodsController {
   ) {
     try {
       const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state } = body;
-      const goods = await GoodsModel.findByPk(id);
-
-      goods.name = name || goods.name;
-      goods.goodsTypeId = goodsTypeId || goods.goodsTypeId;
-      goods.desc = desc || goods.desc;
-      goods.count = count || goods.count;
-      goods.price = price || goods.price;
-      goods.marketPrice = marketPrice || goods.marketPrice;
-      goods.imageUrl = imageUrl || goods.imageUrl;
-      goods.size = size || goods.size;
-      goods.brandId = brandId || goods.brandId;
-      goods.state = state || goods.state;
+      let goods = await GoodsModel.findByPk(id);
+      goods = updateAttr(goods, { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state });
+      await goods.save();
       return resMsg(200, goods, 1);
     } catch (error) {
       return resMsg();

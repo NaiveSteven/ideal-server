@@ -7,7 +7,7 @@ import {
 import { Context } from 'koa';
 import { GetGoodsListBody, AddGoodsTypeBody, UpdateGoodsTypeBody, DeleteGoodsTypeBody } from '../validators/GoodsType';
 import { GoodsType as GoodsTypeModel } from '../models/GoodsType';
-import { getUncertainSqlObj, resMsg } from '../utils/Utils';
+import { getUncertainSqlObj, resMsg, addAttr, } from '../utils/Utils';
 
 @Controller('/goodsType')
 class GoodsTypeController {
@@ -42,10 +42,8 @@ class GoodsTypeController {
   ) {
     try {
       const { name, adminUserId } = body;
-      const goodsType = new GoodsTypeModel();
-
-      goodsType.name = name;
-      goodsType.adminUserId = adminUserId;
+      let goodsType = new GoodsTypeModel();
+      goodsType = addAttr(goodsType, { name, adminUserId });
       await goodsType.save();
       return resMsg(200, goodsType, 1);
     } catch (error) {

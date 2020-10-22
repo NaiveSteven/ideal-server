@@ -7,7 +7,7 @@ import {
 import { Context } from 'koa';
 import { GetOrderListBody, AddOrderBody, UpdateOrderBody, DeleteOrderBody } from '../validators/Order';
 import { Order as OrderModel } from '../models/Order';
-import { getUncertainSqlObj, resMsg } from '../utils/Utils';
+import { getUncertainSqlObj, resMsg, addAttr, updateAttr } from '../utils/Utils';
 
 @Controller('/order')
 class OrderController {
@@ -42,16 +42,9 @@ class OrderController {
   ) {
     try {
       const { userId, goodsId, phone, address, price, count, state } = body;
-      const order = new OrderModel();
-      order.userId = userId;
-      order.goodsId = goodsId;
-      order.phone = phone;
-      order.address = address;
-      order.price = price;
-      order.count = count;
-      order.state = state;
+      let order = new OrderModel();
+      order = addAttr(order, { userId, goodsId, phone, address, price, count, state });
       await order.save();
-      ctx.status = 201;
       return resMsg(200, order, 1);
     } catch (error) {
       return resMsg();
@@ -65,16 +58,8 @@ class OrderController {
   ) {
     try {
       const { userId, goodsId, phone, address, price, count, state, id } = body;
-      const order = await OrderModel.findByPk(id);
-
-      order.userId = userId || order.userId;
-      order.goodsId = goodsId || order.goodsId;
-      order.phone = phone || order.phone;
-      order.address = address || order.address;
-      order.price = price || order.price;
-      order.count = count || order.count;
-      order.state = state || order.state;
-
+      let order = await OrderModel.findByPk(id);
+      order = updateAttr(order, { userId, goodsId, phone, address, price, count, state, id });
       await order.save();
       return resMsg(200, order, 1);
     } catch (error) {

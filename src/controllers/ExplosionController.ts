@@ -7,7 +7,7 @@ import {
 import { Context } from 'koa';
 import { GetExplosionListBody, AddExplosionBody, UpdateExplosionBody, DeleteExplosionBody } from '../validators/Explosion';
 import { Explosion as ExplosionModel } from '../models/Explosion';
-import { getUncertainSqlObj, resMsg } from '../utils/Utils';
+import { getUncertainSqlObj, resMsg, addAttr, updateAttr } from '../utils/Utils';
 
 @Controller('/explosion')
 class ExplosionController {
@@ -42,16 +42,8 @@ class ExplosionController {
   ) {
     try {
       const { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId } = body;
-      const explosion = new ExplosionModel();
-      explosion.name = name;
-      explosion.goodsTypeId = goodsTypeId;
-      explosion.desc = desc;
-      explosion.count = count;
-      explosion.price = price;
-      explosion.marketPrice = marketPrice;
-      explosion.imageUrl = imageUrl;
-      explosion.size = size;
-      explosion.brandId = brandId;
+      let explosion = new ExplosionModel();
+      explosion = addAttr(explosion, { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId });
       explosion.state = 1;
       await explosion.save();
       return resMsg(200, explosion, 1);
@@ -66,20 +58,9 @@ class ExplosionController {
     @Body() body: UpdateExplosionBody
   ) {
     try {
-      const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId } = body;
-      const explosion = await ExplosionModel.findByPk(id);
-
-      explosion.name = name || explosion.name;
-      explosion.goodsTypeId = goodsTypeId || explosion.goodsTypeId;
-      explosion.desc = desc || explosion.desc;
-      explosion.count = count || explosion.count;
-      explosion.price = price || explosion.price;
-      explosion.marketPrice = marketPrice || explosion.marketPrice;
-      explosion.imageUrl = imageUrl || explosion.imageUrl;
-      explosion.size = size || explosion.size;
-      explosion.brandId = brandId || explosion.brandId;
-      explosion.state = explosion.state;
-
+      const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state } = body;
+      let explosion = await ExplosionModel.findByPk(id);
+      explosion = updateAttr(explosion, { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state });
       await explosion.save();
       return resMsg(200, explosion, 1);
     } catch (error) {
@@ -94,7 +75,6 @@ class ExplosionController {
   ) {
     try {
       const explosion = await ExplosionModel.findByPk(body.id);
-
       await explosion.destroy();
       return resMsg(200, [], 1);
     } catch (error) {

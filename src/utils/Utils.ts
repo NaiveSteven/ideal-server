@@ -25,10 +25,26 @@ export const hasEmpty = function (...params: any) {
 export const getUncertainSqlObj = function (params: any) {
   const obj = {} as any;
   for (const key in params) {
-    let val = params[key];
+    const val = params[key];
     if (!hasEmpty(val)) {
       obj[key] = val;
     }
   }
   return obj;
 };
+
+export const addAttr = (model: any, params: any) => {
+  for (const key in params) {
+    const val = params[key];
+    model[key] = val;
+  }
+  return model;
+}
+
+export const updateAttr = (model: any, params: any) => {
+  for (const key in params) {
+    const val = params[key];
+    model[key] = val || model[key];
+  }
+  return model;
+}

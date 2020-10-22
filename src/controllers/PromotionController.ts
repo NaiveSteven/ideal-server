@@ -7,7 +7,7 @@ import {
 import { Context } from 'koa';
 import { GetPromotionListBody, AddPromotionBody, UpdatePromotionBody, DeletePromotionBody } from '../validators/Promotion';
 import { Promotion as PromotionModel } from '../models/Promotion';
-import { getUncertainSqlObj, resMsg } from '../utils/Utils';
+import { getUncertainSqlObj, resMsg, addAttr, updateAttr } from '../utils/Utils';
 
 @Controller('/promotion')
 class PromotionController {
@@ -42,17 +42,8 @@ class PromotionController {
   ) {
     try {
       const { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId } = body;
-      const promotion = new PromotionModel();
-
-      promotion.name = name;
-      promotion.goodsTypeId = goodsTypeId;
-      promotion.desc = desc;
-      promotion.count = count;
-      promotion.price = price;
-      promotion.marketPrice = marketPrice;
-      promotion.imageUrl = imageUrl;
-      promotion.size = size;
-      promotion.brandId = brandId;
+      let promotion = new PromotionModel();
+      promotion = addAttr(promotion, { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId });
       promotion.state = 1;
       await promotion.save();
       return resMsg(200, promotion, 1);
@@ -67,19 +58,9 @@ class PromotionController {
     @Body() body: UpdatePromotionBody
   ) {
     try {
-      const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId } = body;
-      const promotion = await PromotionModel.findByPk(id);
-
-      promotion.name = name || promotion.name;
-      promotion.goodsTypeId = goodsTypeId || promotion.goodsTypeId;
-      promotion.desc = desc || promotion.desc;
-      promotion.count = count || promotion.count;
-      promotion.price = price || promotion.price;
-      promotion.marketPrice = marketPrice || promotion.marketPrice;
-      promotion.imageUrl = imageUrl || promotion.imageUrl;
-      promotion.size = size || promotion.size;
-      promotion.brandId = brandId || promotion.brandId;
-      promotion.state = promotion.state;
+      const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state } = body;
+      let promotion = await PromotionModel.findByPk(id);
+      promotion = updateAttr(promotion, { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state });
       await promotion.save();
       return resMsg(200, promotion, 1);
     } catch (error) {
