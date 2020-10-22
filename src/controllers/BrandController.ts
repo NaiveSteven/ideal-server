@@ -7,26 +7,30 @@ import {
 import { Context } from 'koa';
 import { GetBrandListBody, AddBrandBody, UpdateBrandBody, DeleteBrandBody } from '../validators/Brand';
 import { Brand as BrandModel } from '../models/Brand';
+import { getUncertainSqlObj, resMsg } from '../utils/Utils';
 
 @Controller('/brand')
 class BrandController {
-
   @Post('/getBrandList')
   async getGoodsList(
     @Ctx() ctx: Context,
     @Body() body: GetBrandListBody
   ) {
-    const limit = Number(body.limit);
-    const offset = (Number(body.page) - 1) * limit;
-    const brand = await BrandModel.findAndCountAll({
-      where: {
-        adminUserId: body.adminUserId,
-      },
-      limit,
-      offset,
-    });
-    return {
-      brand
+    try {
+      const limit = Number(body.limit);
+      const offset = (Number(body.page) - 1) * limit;
+      const { adminUserId } = body;
+      const searchObj = getUncertainSqlObj({ adminUserId });
+      const brand = await BrandModel.findAndCountAll({
+        where: {
+          ...searchObj
+        },
+        limit,
+        offset,
+      });
+      return resMsg(200, brand, 1);
+    } catch (error) {
+      return resMsg();
     }
   }
 
@@ -35,61 +39,59 @@ class BrandController {
     @Ctx() ctx: Context,
     @Body() body: AddBrandBody
   ) {
-    const { name, adminUserId } = body;
+    try {
+      const { name, adminUserId } = body;
+      const brand = new BrandModel();
+      brand.name = name;
+      brand.adminUserId = adminUserId;
 
-    const brand = new BrandModel();
-
-    brand.name = name;
-    brand.adminUserId = adminUserId;
-    await brand.save();
-
-    ctx.status = 201;
-    return brand;
+      await brand.save();
+      return resMsg(200, brand, 1);
+    } catch (error) {
+      return resMsg();
+    }
   }
 
-  /**
-   * 更新
-   */
   @Post('/updateBrand')
   public async updateBoard(
     @Ctx() ctx: Context,
     @Body() body: UpdateBrandBody
   ) {
-    const brand = await BrandModel.findByPk(body.id);
+    try {
+      const brand = await BrandModel.findByPk(body.id);
+      if (brand.adminUserId !== body.adminUserId) {
+        return {
+          state: -1,
+          message: '禁止访问该品牌',
+        };
+      }
+      brand.name = body.name || brand.name;
 
-    if (brand.adminUserId !== body.adminUserId) {
-      return {
-        state: -1,
-        message: '禁止访问该品牌',
-      };
+      await brand.save();
+      return resMsg(200, brand, 1);
+    } catch (error) {
+      return resMsg();
     }
-
-    brand.name = body.name || brand.name;
-    await brand.save();
-    return brand;
   }
 
-  /**
-   * 删除
-   */
   @Post('/deleteBrand')
   public async deleteBoard(
     @Ctx() ctx: Context,
     @Body() body: DeleteBrandBody
   ) {
-    const brand = await BrandModel.findByPk(body.id);
+    try {
+      const brand = await BrandModel.findByPk(body.id);
+      if (brand.adminUserId !== body.adminUserId) {
+        return {
+          state: -1,
+          message: '禁止访问该品牌',
+        };
+      }
 
-    if (brand.adminUserId !== body.adminUserId) {
-      return {
-        state: -1,
-        message: '禁止访问该品牌',
-      };
-    }
-
-    await brand.destroy();
-    return {
-      state: 1,
-      data: [],
+      await brand.destroy();
+      return resMsg(200, [], 1);
+    } catch (error) {
+      return resMsg();
     }
   }
 }

@@ -7,27 +7,32 @@ import {
 import { Context } from 'koa';
 import { GetGoodsListBody, AddGoodsTypeBody, UpdateGoodsTypeBody, DeleteGoodsTypeBody } from '../validators/GoodsType';
 import { GoodsType as GoodsTypeModel } from '../models/GoodsType';
+import { getUncertainSqlObj, resMsg } from '../utils/Utils';
 
 @Controller('/goodsType')
 class GoodsTypeController {
-
   @Post('/getGoodsTypeList')
   async getGoodsList(
     @Ctx() ctx: Context,
     @Body() body: GetGoodsListBody
   ) {
-    const limit = Number(body.limit);
-    const offset = (Number(body.page) - 1) * limit;
-    const GoodsType = await GoodsTypeModel.findAndCountAll({
-      where: {
-        adminUserId: body.adminUserId,
-      },
-      limit,
-      offset,
-    });
-    return {
-      GoodsType
+    try {
+      const limit = Number(body.limit);
+      const offset = (Number(body.page) - 1) * limit;
+      const { adminUserId } = body;
+      const searchObj = getUncertainSqlObj({ adminUserId });
+      const GoodsType = await GoodsTypeModel.findAndCountAll({
+        where: {
+          ...searchObj
+        },
+        limit,
+        offset,
+      });
+      return resMsg(200, GoodsType, 1);
+    } catch (e) {
+      return resMsg();
     }
+
   }
 
   @Post('/addGoodsType')
@@ -35,65 +40,57 @@ class GoodsTypeController {
     @Ctx() ctx: Context,
     @Body() body: AddGoodsTypeBody
   ) {
-    const { name, adminUserId } = body;
+    try {
+      const { name, adminUserId } = body;
+      const goodsType = new GoodsTypeModel();
 
-    const goodsType = new GoodsTypeModel();
-
-    goodsType.name = name;
-    goodsType.adminUserId = adminUserId;
-    await goodsType.save();
-
-    ctx.status = 201;
-    return goodsType;
+      goodsType.name = name;
+      goodsType.adminUserId = adminUserId;
+      await goodsType.save();
+      return resMsg(200, goodsType, 1);
+    } catch (error) {
+      return resMsg();
+    }
   }
 
-  /**
-   * 更新
-   */
   @Post('/updateGoodsType')
   public async updateBoard(
     @Ctx() ctx: Context,
     @Body() body: UpdateGoodsTypeBody
   ) {
-    const goodsType = await GoodsTypeModel.findByPk(body.id);
-
-    if (goodsType.adminUserId !== body.adminUserId) {
-      return {
-        state: -1,
-        message: '禁止访问该商品类型',
-      };
+    try {
+      const goodsType = await GoodsTypeModel.findByPk(body.id);
+      if (goodsType.adminUserId !== body.adminUserId) {
+        return {
+          state: -1,
+          message: '禁止访问该商品类型',
+        };
+      }
+      goodsType.name = body.name || goodsType.name;
+      await goodsType.save();
+      return resMsg(200, goodsType, 1);
+    } catch (error) {
+      return resMsg();
     }
-
-    goodsType.name = body.name || goodsType.name;
-    await goodsType.save();
-
-    // ctx.status = 204;
-    return goodsType;
   }
 
-  /**
-   * 删除
-   */
   @Post('/deleteGoodsType')
   public async deleteBoard(
     @Ctx() ctx: Context,
     @Body() body: DeleteGoodsTypeBody
   ) {
-    const goodsType = await GoodsTypeModel.findByPk(body.id);
-
-    if (goodsType.adminUserId !== body.adminUserId) {
-      return {
-        state: -1,
-        message: '禁止访问该商品类型',
-      };
-    }
-
-    await goodsType.destroy();
-
-    // ctx.status = 204;
-    return {
-      state: 1,
-      data: [],
+    try {
+      const goodsType = await GoodsTypeModel.findByPk(body.id);
+      if (goodsType.adminUserId !== body.adminUserId) {
+        return {
+          state: -1,
+          message: '禁止访问该商品类型',
+        };
+      }
+      await goodsType.destroy();
+      return resMsg(200, [], 1);
+    } catch (error) {
+      return resMsg();
     }
   }
 }

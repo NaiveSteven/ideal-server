@@ -7,10 +7,10 @@ import {
 import { Context } from 'koa';
 import { UserListBody } from '../validators/User';
 import { User as UserModel } from '../models/User';
+import { getUncertainSqlObj, resMsg } from '../utils/Utils';
 
 @Controller('/user')
 class UserController {
-
   @Post('/getUserList')
   async getUserList(
     @Ctx() ctx: Context,
@@ -18,9 +18,11 @@ class UserController {
   ) {
     const limit = Number(body.limit);
     const offset = (Number(body.page) - 1) * limit;
+    const { adminUserId } = body;
+    const searchObj = getUncertainSqlObj({ adminUserId });
     const userList = await UserModel.findAndCountAll({
       where: {
-        adminUserId: body.adminUserId,
+        ...searchObj
       },
       limit,
       offset,
