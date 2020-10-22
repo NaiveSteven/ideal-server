@@ -2,9 +2,6 @@ import {
   Controller,
   Ctx,
   Post,
-  Delete,
-  Flow,
-  Params,
   Body
 } from 'koa-ts-controllers';
 import { Context } from 'koa';
@@ -48,9 +45,9 @@ class PromotionController {
     @Ctx() ctx: Context,
     @Body() body: AddPromotionBody
   ) {
-    let { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId } = body;
+    const { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId } = body;
 
-    let promotion = new PromotionModel();
+    const promotion = new PromotionModel();
 
     promotion.name = name;
     promotion.goodsTypeId = goodsTypeId;
@@ -76,8 +73,8 @@ class PromotionController {
     @Ctx() ctx: Context,
     @Body() body: UpdatePromotionBody
   ) {
-    let { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId } = body;
-    let promotion = await PromotionModel.findByPk(id);
+    const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId } = body;
+    const promotion = await PromotionModel.findByPk(id);
 
     promotion.name = name || promotion.name;
     promotion.goodsTypeId = goodsTypeId || promotion.goodsTypeId;
@@ -103,7 +100,7 @@ class PromotionController {
     @Ctx() ctx: Context,
     @Body() body: DeletePromotionBody
   ) {
-    let promotion = await PromotionModel.findByPk(body.id);
+    const promotion = await PromotionModel.findByPk(body.id);
 
     await promotion.destroy();
 

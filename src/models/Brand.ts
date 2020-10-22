@@ -3,7 +3,7 @@ import {
   Column,
   CreatedAt,
   DataType,
-  ForeignKey, HasMany,
+  ForeignKey,
   Model,
   PrimaryKey,
   Table,
@@ -23,14 +23,14 @@ export class Brand extends Model<Brand> {
 
   @ForeignKey(() => AdminUser)
   @Column({
-      type: DataType.INTEGER.UNSIGNED,
-      allowNull: false
+    type: DataType.INTEGER.UNSIGNED,
+    allowNull: false
   })
   adminUserId: number;
 
   @Column({
-      type: DataType.STRING(255),
-      allowNull: false
+    type: DataType.STRING(255),
+    allowNull: false
   })
   name: string;
 

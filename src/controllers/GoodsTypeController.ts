@@ -2,9 +2,6 @@ import {
   Controller,
   Ctx,
   Post,
-  Delete,
-  Flow,
-  Params,
   Body
 } from 'koa-ts-controllers';
 import { Context } from 'koa';
@@ -38,9 +35,9 @@ class GoodsTypeController {
     @Ctx() ctx: Context,
     @Body() body: AddGoodsTypeBody
   ) {
-    let { name, adminUserId } = body;
+    const { name, adminUserId } = body;
 
-    let goodsType = new GoodsTypeModel();
+    const goodsType = new GoodsTypeModel();
 
     goodsType.name = name;
     goodsType.adminUserId = adminUserId;
@@ -58,7 +55,7 @@ class GoodsTypeController {
     @Ctx() ctx: Context,
     @Body() body: UpdateGoodsTypeBody
   ) {
-    let goodsType = await GoodsTypeModel.findByPk(body.id);
+    const goodsType = await GoodsTypeModel.findByPk(body.id);
 
     if (goodsType.adminUserId !== body.adminUserId) {
       return {
@@ -82,7 +79,7 @@ class GoodsTypeController {
     @Ctx() ctx: Context,
     @Body() body: DeleteGoodsTypeBody
   ) {
-    let goodsType = await GoodsTypeModel.findByPk(body.id);
+    const goodsType = await GoodsTypeModel.findByPk(body.id);
 
     if (goodsType.adminUserId !== body.adminUserId) {
       return {

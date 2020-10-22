@@ -47,7 +47,7 @@ export class UpdatePromotionBody {
   id: number;
 
   brandId: number;
-  
+
   name: string;
 
   goodsTypeId: number;

@@ -33,7 +33,7 @@ export class UpdateGoodsBody {
   id: number;
 
   brandId: number;
-  
+
   name: string;
 
   goodsTypeId: number;

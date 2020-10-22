@@ -2,9 +2,6 @@ import {
   Controller,
   Ctx,
   Post,
-  Delete,
-  Flow,
-  Params,
   Body
 } from 'koa-ts-controllers';
 import { Context } from 'koa';
@@ -48,9 +45,9 @@ class ExplosionController {
     @Ctx() ctx: Context,
     @Body() body: AddExplosionBody
   ) {
-    let { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId } = body;
+    const { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId } = body;
 
-    let explosion = new ExplosionModel();
+    const explosion = new ExplosionModel();
 
     explosion.name = name;
     explosion.goodsTypeId = goodsTypeId;
@@ -76,8 +73,8 @@ class ExplosionController {
     @Ctx() ctx: Context,
     @Body() body: UpdateExplosionBody
   ) {
-    let { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId } = body;
-    let explosion = await ExplosionModel.findByPk(id);
+    const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId } = body;
+    const explosion = await ExplosionModel.findByPk(id);
 
     explosion.name = name || explosion.name;
     explosion.goodsTypeId = goodsTypeId || explosion.goodsTypeId;
@@ -89,9 +86,8 @@ class ExplosionController {
     explosion.size = size || explosion.size;
     explosion.brandId = brandId || explosion.brandId;
     explosion.state = explosion.state;
-    await explosion.save();
 
-    // ctx.status = 204;
+    await explosion.save();
     return explosion;
   }
 
@@ -103,11 +99,9 @@ class ExplosionController {
     @Ctx() ctx: Context,
     @Body() body: DeleteExplosionBody
   ) {
-    let explosion = await ExplosionModel.findByPk(body.id);
+    const explosion = await ExplosionModel.findByPk(body.id);
 
     await explosion.destroy();
-
-    // ctx.status = 204;
     return {
       state: 1,
       data: [],

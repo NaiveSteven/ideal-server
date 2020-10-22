@@ -2,9 +2,6 @@ import {
   Controller,
   Ctx,
   Post,
-  Delete,
-  Flow,
-  Params,
   Body
 } from 'koa-ts-controllers';
 import { Context } from 'koa';
@@ -47,9 +44,9 @@ class GoodsController {
     @Ctx() ctx: Context,
     @Body() body: AddGoodsBody
   ) {
-    let { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId } = body;
+    const { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId } = body;
 
-    let goods = new GoodsModel();
+    const goods = new GoodsModel();
 
     goods.name = name;
     goods.goodsTypeId = goodsTypeId;
@@ -75,8 +72,8 @@ class GoodsController {
     @Ctx() ctx: Context,
     @Body() body: UpdateGoodsBody
   ) {
-    let { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId } = body;
-    let goods = await GoodsModel.findByPk(id);
+    const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state } = body;
+    const goods = await GoodsModel.findByPk(id);
 
     goods.name = name || goods.name;
     goods.goodsTypeId = goodsTypeId || goods.goodsTypeId;
@@ -87,7 +84,7 @@ class GoodsController {
     goods.imageUrl = imageUrl || goods.imageUrl;
     goods.size = size || goods.size;
     goods.brandId = brandId || goods.brandId;
-    goods.state = goods.state;
+    goods.state = state || goods.state;
     await goods.save();
 
     // ctx.status = 204;
@@ -102,7 +99,7 @@ class GoodsController {
     @Ctx() ctx: Context,
     @Body() body: DeleteGoodsBody
   ) {
-    let goods = await GoodsModel.findByPk(body.id);
+    const goods = await GoodsModel.findByPk(body.id);
 
     await goods.destroy();
 

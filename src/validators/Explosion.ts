@@ -47,7 +47,7 @@ export class UpdateExplosionBody {
   id: number;
 
   brandId: number;
-  
+
   name: string;
 
   goodsTypeId: number;

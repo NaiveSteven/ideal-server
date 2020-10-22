@@ -2,18 +2,13 @@ import {
   Controller,
   Ctx,
   Post,
-  Delete,
-  Flow,
-  Params,
   Body
 } from 'koa-ts-controllers';
 import { Context } from 'koa';
 import { AdminUserBody } from '../validators/AdminUser';
 import { AdminUser as adminUserModel } from '../models/AdminUser';
 import jwt from 'jsonwebtoken';
-import Boom from '@hapi/Boom';
 import configs from '../configs';
-import { constants } from 'fs';
 
 @Controller('/admin')
 class AdminUserController {
