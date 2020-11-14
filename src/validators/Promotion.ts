@@ -19,6 +19,10 @@ export class GetPromotionListBody {
   limit: string;
 
   goodsTypeId: number;
+
+  brandId: number;
+
+  state: number;
 }
 
 export class AddPromotionBody {

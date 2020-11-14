@@ -19,6 +19,10 @@ export class GetExplosionListBody {
   limit: string;
 
   goodsTypeId: number;
+
+  brandId: number;
+  
+  state: number;
 }
 
 export class AddExplosionBody {

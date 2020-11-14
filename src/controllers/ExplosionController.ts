@@ -19,8 +19,8 @@ class ExplosionController {
     try {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
-      const { goodsTypeId } = body;
-      const searchObj = getUncertainSqlObj({ goodsTypeId });
+      const { goodsTypeId, brandId, state } = body;
+      const searchObj = getUncertainSqlObj({ goodsTypeId, brandId, state });
       const params = {
         where: {
           ...searchObj

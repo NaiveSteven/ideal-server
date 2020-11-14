@@ -5,6 +5,10 @@ export class GetGoodsListBody {
   limit: string;
 
   goodsTypeId: number;
+
+  brandId: number;
+
+  state: number;
 }
 
 export class AddGoodsBody {
