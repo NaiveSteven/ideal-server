@@ -6,6 +6,8 @@ export class GetOrderListBody {
   userId: number;
 
   goodsId: number;
+
+  state: number;
 }
 
 export class AddOrderBody {

@@ -19,8 +19,8 @@ class OrderController {
     try {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
-      const { userId } = body;
-      const searchObj = getUncertainSqlObj({ userId });
+      const { userId, state } = body;
+      const searchObj = getUncertainSqlObj({ userId, state });
       const params = {
         where: {
           ...searchObj
