@@ -41,10 +41,9 @@ class PromotionController {
     @Body() body: AddPromotionBody
   ) {
     try {
-      const { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId } = body;
+      const { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId, state } = body;
       let promotion = new PromotionModel();
-      promotion = addAttr(promotion, { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId });
-      promotion.state = 1;
+      promotion = addAttr(promotion, { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, state, size, brandId });
       await promotion.save();
       return resMsg(200, promotion, 1);
     } catch (error) {

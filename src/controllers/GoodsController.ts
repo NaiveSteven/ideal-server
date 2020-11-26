@@ -41,10 +41,9 @@ class GoodsController {
     @Body() body: AddGoodsBody
   ) {
     try {
-      const { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId } = body;
+      const { name, goodsTypeId, price, desc, count, state, marketPrice, imageUrl, size, brandId } = body;
       let goods = new GoodsModel();
-      goods = addAttr(goods, { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId });
-      goods.state = 1;
+      goods = addAttr(goods, { name, goodsTypeId, price, desc, state, count, marketPrice, imageUrl, size, brandId });
       await goods.save();
       return resMsg(200, goods, 1);
     } catch (error) {

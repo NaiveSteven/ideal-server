@@ -41,10 +41,9 @@ class ExplosionController {
     @Body() body: AddExplosionBody
   ) {
     try {
-      const { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId } = body;
+      const { name, goodsTypeId, price, desc, count, state, marketPrice, imageUrl, size, brandId } = body;
       let explosion = new ExplosionModel();
-      explosion = addAttr(explosion, { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId });
-      explosion.state = 1;
+      explosion = addAttr(explosion, { state, name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId });
       await explosion.save();
       return resMsg(200, explosion, 1);
     } catch (error) {

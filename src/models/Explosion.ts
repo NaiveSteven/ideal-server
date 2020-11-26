@@ -80,7 +80,7 @@ export class Explosion extends Model<Explosion> {
 
   // 状态 销售中 下架 售罄
   @Column({
-    type: DataType.STRING(255),
+    type: DataType.INTEGER,
     allowNull: false
   })
   state: number;

@@ -57,12 +57,6 @@ class BrandController {
   ) {
     try {
       const brand = await BrandModel.findByPk(body.id);
-      if (brand.adminUserId !== body.adminUserId) {
-        return {
-          state: -1,
-          message: '禁止访问该品牌',
-        };
-      }
       brand.name = body.name || brand.name;
       await brand.save();
       return resMsg(200, brand, 1);
@@ -78,12 +72,6 @@ class BrandController {
   ) {
     try {
       const brand = await BrandModel.findByPk(body.id);
-      if (brand.adminUserId !== body.adminUserId) {
-        return {
-          state: -1,
-          message: '禁止访问该品牌',
-        };
-      }
       await brand.destroy();
       return resMsg(200, [], 1);
     } catch (error) {
