@@ -41,9 +41,9 @@ class OrderController {
     @Body() body: AddOrderBody
   ) {
     try {
-      const { userId, goodsId, phone, address, price, count, state } = body;
+      const { userId, goodsId, phone, address, price, count, state, deal_state } = body;
       let order = new OrderModel();
-      order = addAttr(order, { userId, goodsId, phone, address, price, count, state });
+      order = addAttr(order, { userId, goodsId, phone, address, price, count, state, deal_state });
       await order.save();
       return resMsg(200, order, 1);
     } catch (error) {
@@ -57,9 +57,9 @@ class OrderController {
     @Body() body: UpdateOrderBody
   ) {
     try {
-      const { userId, goodsId, phone, address, price, count, state, id } = body;
+      const { userId, goodsId, phone, address, price, count, state, id, deal_state } = body;
       let order = await OrderModel.findByPk(id);
-      order = updateAttr(order, { userId, goodsId, phone, address, price, count, state, id });
+      order = updateAttr(order, { userId, goodsId, phone, address, price, count, state, id, deal_state });
       await order.save();
       return resMsg(200, order, 1);
     } catch (error) {

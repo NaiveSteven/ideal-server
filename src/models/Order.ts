@@ -59,7 +59,7 @@ export class Order extends Model<Order> {
 
   // 1未付款，2已付款未发货，3已发货未确认收到，4确认到货订单完成
   @Column({
-    type: DataType.STRING(255),
+    type: DataType.INTEGER,
     allowNull: false
   })
   state: number;
@@ -70,6 +70,13 @@ export class Order extends Model<Order> {
     allowNull: false
   })
   count: number;
+
+  // 处理状态 1未处理 2接受处理 3处理完成
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false
+  })
+  deal_state: number;
 
   @CreatedAt
   createdAt: Date;

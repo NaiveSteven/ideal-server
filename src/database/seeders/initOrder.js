@@ -6,6 +6,7 @@ module.exports = {
     const imageUrl =
       ['asdf', 'asdf', 'asdf', 'asdf', 'asdf', 'asdf', 'asdf', 'asdf', 'asdf', 'asdf', 'asdf', 'asdf', 'asdf', 'asdf', 'asdf', 'asdf', 'asdf'];
     const state = [1, 4, 2, 3, 1, 4, 3, 3, 2, 1, 2, 3, 2, 1, 4, 1, 1];
+    const deal_state = [1, 2, 2, 3, 1, 2, 3, 3, 2, 1, 2, 3, 2, 1, 1, 1, 1];
 
     return queryInterface.bulkInsert('Order', goodsTypeId.map((typeId, index) => {
       const id = index + 1;
@@ -18,6 +19,7 @@ module.exports = {
         phone: imageUrl[index],
         address: imageUrl[index],
         state: state[index],
+        deal_state: deal_state[index],
         createdAt: date,
         updatedAt: date
       }

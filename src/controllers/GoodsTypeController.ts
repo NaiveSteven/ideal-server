@@ -58,12 +58,6 @@ class GoodsTypeController {
   ) {
     try {
       const goodsType = await GoodsTypeModel.findByPk(body.id);
-      if (goodsType.adminUserId !== body.adminUserId) {
-        return {
-          state: -1,
-          message: '禁止访问该商品类型',
-        };
-      }
       goodsType.name = body.name || goodsType.name;
       await goodsType.save();
       return resMsg(200, goodsType, 1);
@@ -79,12 +73,6 @@ class GoodsTypeController {
   ) {
     try {
       const goodsType = await GoodsTypeModel.findByPk(body.id);
-      if (goodsType.adminUserId !== body.adminUserId) {
-        return {
-          state: -1,
-          message: '禁止访问该商品类型',
-        };
-      }
       await goodsType.destroy();
       return resMsg(200, [], 1);
     } catch (error) {

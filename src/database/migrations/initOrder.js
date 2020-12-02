@@ -31,6 +31,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      deal_state: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       count: {
         type: Sequelize.INTEGER,
         allowNull: false

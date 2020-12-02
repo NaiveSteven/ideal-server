@@ -24,6 +24,8 @@ export class AddOrderBody {
   state: number;
 
   count: number;
+
+  deal_state: number;
 }
 
 export class UpdateOrderBody {
@@ -42,6 +44,8 @@ export class UpdateOrderBody {
   state: number;
 
   count: number;
+
+  deal_state: number;
 }
 
 export class DeleteOrderBody {
