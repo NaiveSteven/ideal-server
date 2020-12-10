@@ -41,9 +41,9 @@ class PromotionController {
     @Body() body: AddPromotionBody
   ) {
     try {
-      const { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId, state } = body;
+      const { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId, state, saleNum } = body;
       let promotion = new PromotionModel();
-      promotion = addAttr(promotion, { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, state, size, brandId });
+      promotion = addAttr(promotion, { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, state, size, brandId, saleNum });
       await promotion.save();
       return resMsg(200, promotion, 1);
     } catch (error) {
@@ -57,9 +57,9 @@ class PromotionController {
     @Body() body: UpdatePromotionBody
   ) {
     try {
-      const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state } = body;
+      const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state, saleNum } = body;
       let promotion = await PromotionModel.findByPk(id);
-      promotion = updateAttr(promotion, { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state });
+      promotion = updateAttr(promotion, { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state, saleNum });
       await promotion.save();
       return resMsg(200, promotion, 1);
     } catch (error) {

@@ -45,6 +45,8 @@ export class AddPromotionBody {
   size: string;
 
   imageUrl: string;
+
+  saleNum: number;
 }
 
 export class UpdatePromotionBody {
@@ -69,6 +71,8 @@ export class UpdatePromotionBody {
   size: number;
 
   imageUrl: string;
+
+  saleNum: number;
 }
 
 export class DeletePromotionBody {

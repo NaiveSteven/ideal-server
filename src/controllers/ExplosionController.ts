@@ -41,9 +41,9 @@ class ExplosionController {
     @Body() body: AddExplosionBody
   ) {
     try {
-      const { name, goodsTypeId, price, desc, count, state, marketPrice, imageUrl, size, brandId } = body;
+      const { name, goodsTypeId, price, desc, count, state, marketPrice, imageUrl, size, brandId, saleNum } = body;
       let explosion = new ExplosionModel();
-      explosion = addAttr(explosion, { state, name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId });
+      explosion = addAttr(explosion, { state, name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId, saleNum });
       await explosion.save();
       return resMsg(200, explosion, 1);
     } catch (error) {
@@ -57,9 +57,9 @@ class ExplosionController {
     @Body() body: UpdateExplosionBody
   ) {
     try {
-      const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state } = body;
+      const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state, saleNum } = body;
       let explosion = await ExplosionModel.findByPk(id);
-      explosion = updateAttr(explosion, { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state });
+      explosion = updateAttr(explosion, { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state, saleNum });
       await explosion.save();
       return resMsg(200, explosion, 1);
     } catch (error) {

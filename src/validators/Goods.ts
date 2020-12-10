@@ -31,6 +31,8 @@ export class AddGoodsBody {
   size: string;
 
   imageUrl: string;
+
+  saleNum: number;
 }
 
 export class UpdateGoodsBody {
@@ -55,6 +57,8 @@ export class UpdateGoodsBody {
   size: number;
 
   imageUrl: string;
+
+  saleNum: number;
 }
 
 export class DeleteGoodsBody {

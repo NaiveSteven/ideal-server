@@ -21,7 +21,7 @@ export class GetExplosionListBody {
   goodsTypeId: number;
 
   brandId: number;
-  
+
   state: number;
 }
 
@@ -45,6 +45,8 @@ export class AddExplosionBody {
   size: string;
 
   imageUrl: string;
+
+  saleNum: number;
 }
 
 export class UpdateExplosionBody {
@@ -69,6 +71,8 @@ export class UpdateExplosionBody {
   size: number;
 
   imageUrl: string;
+
+  saleNum: number;
 }
 
 export class DeleteExplosionBody {

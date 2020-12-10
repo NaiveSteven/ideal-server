@@ -92,6 +92,13 @@ export class Promotion extends Model<Promotion> {
   })
   count: number;
 
+  // 销量
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false
+  })
+  saleNum: number;
+
   @CreatedAt
   createdAt: Date;
 

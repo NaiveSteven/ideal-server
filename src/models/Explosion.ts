@@ -92,6 +92,13 @@ export class Explosion extends Model<Explosion> {
   })
   count: number;
 
+  // 销量
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false
+  })
+  saleNum: number;
+
   @CreatedAt
   createdAt: Date;
 

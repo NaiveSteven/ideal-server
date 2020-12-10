@@ -41,9 +41,9 @@ class GoodsController {
     @Body() body: AddGoodsBody
   ) {
     try {
-      const { name, goodsTypeId, price, desc, count, state, marketPrice, imageUrl, size, brandId } = body;
+      const { name, goodsTypeId, price, desc, count, state, marketPrice, imageUrl, size, brandId, saleNum } = body;
       let goods = new GoodsModel();
-      goods = addAttr(goods, { name, goodsTypeId, price, desc, state, count, marketPrice, imageUrl, size, brandId });
+      goods = addAttr(goods, { name, goodsTypeId, price, desc, state, count, marketPrice, imageUrl, size, brandId, saleNum });
       await goods.save();
       return resMsg(200, goods, 1);
     } catch (error) {
@@ -57,9 +57,9 @@ class GoodsController {
     @Body() body: UpdateGoodsBody
   ) {
     try {
-      const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state } = body;
+      const { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state, saleNum } = body;
       let goods = await GoodsModel.findByPk(id);
-      goods = updateAttr(goods, { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state });
+      goods = updateAttr(goods, { name, goodsTypeId, price, desc, count, id, marketPrice, imageUrl, size, brandId, state, saleNum });
       await goods.save();
       return resMsg(200, goods, 1);
     } catch (error) {

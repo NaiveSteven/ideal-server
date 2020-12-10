@@ -92,6 +92,13 @@ export class Goods extends Model<Goods> {
   })
   count: number;
 
+  // 销量
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false
+  })
+  saleNum: number;
+
   @CreatedAt
   createdAt: Date;
 
