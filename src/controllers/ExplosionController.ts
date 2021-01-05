@@ -5,6 +5,7 @@ import {
   Body
 } from 'koa-ts-controllers';
 import { Context } from 'koa';
+import { Op } from 'sequelize';
 import { GetExplosionListBody, AddExplosionBody, UpdateExplosionBody, DeleteExplosionBody } from '../validators/Explosion';
 import { Explosion as ExplosionModel } from '../models/Explosion';
 import { getUncertainSqlObj, resMsg, addAttr, updateAttr } from '../utils/Utils';
@@ -19,11 +20,15 @@ class ExplosionController {
     try {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
-      const { goodsTypeId, brandId, state } = body;
+      const { goodsTypeId, brandId, state, keyword } = body;
       const searchObj = getUncertainSqlObj({ goodsTypeId, brandId, state });
+      const nameFilter = keyword ? {name: {
+        [Op.like]: `%${keyword}%`,
+      }} : {};
       const params = {
         where: {
-          ...searchObj
+          ...searchObj,
+          ...nameFilter,
         },
         limit,
         offset,

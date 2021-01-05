@@ -20,4 +20,6 @@ export class UserListBody {
   limit: number;
 
   adminUserId: number;
+
+  keyword: string;
 }

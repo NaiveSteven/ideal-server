@@ -5,6 +5,7 @@ import {
   Body
 } from 'koa-ts-controllers';
 import { Context } from 'koa';
+import { Op } from 'sequelize';
 import { GetGoodsListBody, AddGoodsTypeBody, UpdateGoodsTypeBody, DeleteGoodsTypeBody } from '../validators/GoodsType';
 import { GoodsType as GoodsTypeModel } from '../models/GoodsType';
 import { getUncertainSqlObj, resMsg, addAttr, } from '../utils/Utils';
@@ -19,11 +20,15 @@ class GoodsTypeController {
     try {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
-      const { adminUserId } = body;
+      const { adminUserId, keyword } = body;
       const searchObj = getUncertainSqlObj({ adminUserId });
+      const nameFilter = keyword ? {name: {
+        [Op.like]: `%${keyword}%`,
+      }} : {};
       const GoodsType = await GoodsTypeModel.findAndCountAll({
         where: {
-          ...searchObj
+          ...searchObj,
+          ...nameFilter,
         },
         limit,
         offset,

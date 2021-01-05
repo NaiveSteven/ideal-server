@@ -5,6 +5,7 @@ import {
   Body,
 } from 'koa-ts-controllers';
 import { Context } from 'koa';
+import { Op } from 'sequelize';
 import { GetOrderListBody, AddOrderBody, UpdateOrderBody, DeleteOrderBody } from '../validators/Order';
 import { Order as OrderModel } from '../models/Order';
 import { getUncertainSqlObj, resMsg, addAttr, updateAttr } from '../utils/Utils';
@@ -19,11 +20,15 @@ class OrderController {
     try {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
-      const { userId, state, deal_state } = body;
+      const { userId, state, deal_state, keyword } = body;
       const searchObj = getUncertainSqlObj({ userId, state, deal_state });
+      const phoneFilter = keyword ? {phone: {
+        [Op.like]: `%${keyword}%`,
+      }} : {};
       const params = {
         where: {
-          ...searchObj
+          ...searchObj,
+          ...phoneFilter,
         },
         limit,
         offset,

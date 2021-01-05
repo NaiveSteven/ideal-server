@@ -23,6 +23,8 @@ export class GetPromotionListBody {
   brandId: number;
 
   state: number;
+
+  keyword: string;
 }
 
 export class AddPromotionBody {

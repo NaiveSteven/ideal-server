@@ -10,6 +10,8 @@ export class GetOrderListBody {
   state: number;
 
   deal_state: number;
+
+  keyword: string;
 }
 
 export class AddOrderBody {

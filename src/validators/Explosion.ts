@@ -23,6 +23,8 @@ export class GetExplosionListBody {
   brandId: number;
 
   state: number;
+
+  keyword: string;
 }
 
 export class AddExplosionBody {

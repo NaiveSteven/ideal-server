@@ -20,6 +20,8 @@ export class GetBrandListBody {
   limit: string;
 
   adminUserId: number;
+
+  keyword: string;
 }
 
 export class AddBrandBody {

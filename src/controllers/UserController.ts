@@ -8,6 +8,7 @@ import { Context } from 'koa';
 import { UserListBody } from '../validators/User';
 import { User as UserModel } from '../models/User';
 import { getUncertainSqlObj, resMsg } from '../utils/Utils';
+import { Op } from 'sequelize';
 
 @Controller('/user')
 class UserController {
@@ -19,11 +20,15 @@ class UserController {
     try {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
-      const { adminUserId } = body;
+      const { adminUserId, keyword } = body;
       const searchObj = getUncertainSqlObj({ adminUserId });
+      const nameFilter = keyword ? {name: {
+        [Op.like]: `%${keyword}%`,
+      }} : {};
       const userList = await UserModel.findAndCountAll({
         where: {
-          ...searchObj
+          ...searchObj,
+          ...nameFilter,
         },
         limit,
         offset,

@@ -5,6 +5,7 @@ import {
   Body
 } from 'koa-ts-controllers';
 import { Context } from 'koa';
+import { Op } from 'sequelize';
 import { GetBrandListBody, AddBrandBody, UpdateBrandBody, DeleteBrandBody } from '../validators/Brand';
 import { Brand as BrandModel } from '../models/Brand';
 import { getUncertainSqlObj, resMsg, addAttr } from '../utils/Utils';
@@ -19,11 +20,15 @@ class BrandController {
     try {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
-      const { adminUserId } = body;
+      const { adminUserId, keyword } = body;
       const searchObj = getUncertainSqlObj({ adminUserId });
+      const nameFilter = keyword ? {name: {
+        [Op.like]: `%${keyword}%`,
+      }} : {};
       const brand = await BrandModel.findAndCountAll({
         where: {
-          ...searchObj
+          ...searchObj,
+          ...nameFilter,
         },
         limit,
         offset,

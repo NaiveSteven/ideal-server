@@ -20,6 +20,8 @@ export class GetGoodsListBody {
   limit: string;
 
   adminUserId: number;
+
+  keyword: string;
 }
 
 export class AddGoodsTypeBody {
