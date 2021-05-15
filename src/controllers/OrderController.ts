@@ -22,9 +22,11 @@ class OrderController {
       const offset = (Number(body.page) - 1) * limit;
       const { userId, state, deal_state, keyword } = body;
       const searchObj = getUncertainSqlObj({ userId, state, deal_state });
-      const phoneFilter = keyword ? {phone: {
-        [Op.like]: `%${keyword}%`,
-      }} : {};
+      const phoneFilter = keyword ? {
+        phone: {
+          [Op.like]: `%${keyword}%`,
+        }
+      } : {};
       const params = {
         where: {
           ...searchObj,
@@ -78,8 +80,11 @@ class OrderController {
     @Body() body: DeleteOrderBody
   ) {
     try {
-      const order = await OrderModel.findByPk(body.id);
-      await order.destroy();
+      // const order = await OrderModel.findByPk(body.id);
+      // await order.destroy();
+      await OrderModel.destroy({
+        where: { id: typeof body.id === 'number' || typeof body.id === 'number' ? body.id : { [Op.in]: body.id } },
+      })
       return resMsg(200, [], 1);
     } catch (error) {
       return resMsg();

@@ -53,5 +53,5 @@ export class UpdateOrderBody {
 }
 
 export class DeleteOrderBody {
-  id: number;
+  id: number | string | number[];
 }

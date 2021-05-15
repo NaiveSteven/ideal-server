@@ -79,5 +79,5 @@ export class UpdateExplosionBody {
 
 export class DeleteExplosionBody {
 
-  id: number;
+  id: number | string | number[];
 }

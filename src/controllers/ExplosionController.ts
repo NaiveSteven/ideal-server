@@ -78,8 +78,11 @@ class ExplosionController {
     @Body() body: DeleteExplosionBody
   ) {
     try {
-      const explosion = await ExplosionModel.findByPk(body.id);
-      await explosion.destroy();
+      // const explosion = await ExplosionModel.findByPk(body.id);
+      // await explosion.destroy();
+      await ExplosionModel.destroy({
+        where: { id: typeof body.id === 'number' || typeof body.id === 'number' ? body.id : { [Op.in]: body.id } },
+      })
       return resMsg(200, [], 1);
     } catch (error) {
       return resMsg();

@@ -79,5 +79,5 @@ export class UpdatePromotionBody {
 
 export class DeletePromotionBody {
 
-  id: number;
+  id: number | string | number[];
 }

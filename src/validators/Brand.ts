@@ -42,7 +42,7 @@ export class UpdateBrandBody {
 
 export class DeleteBrandBody {
 
-  id: number;
+  id: number | string | number[];
 
   adminUserId: number;
 }

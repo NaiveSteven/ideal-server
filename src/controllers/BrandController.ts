@@ -76,8 +76,11 @@ class BrandController {
     @Body() body: DeleteBrandBody
   ) {
     try {
-      const brand = await BrandModel.findByPk(body.id);
-      await brand.destroy();
+      // const brand = await BrandModel.findByPk(body.id);
+      // await brand.destroy();
+      await BrandModel.destroy({
+        where: { id: typeof body.id === 'number' || typeof body.id === 'number' ? body.id : { [Op.in]: body.id } },
+      })
       return resMsg(200, [], 1);
     } catch (error) {
       return resMsg();

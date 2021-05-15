@@ -78,8 +78,11 @@ class PromotionController {
     @Body() body: DeletePromotionBody
   ) {
     try {
-      const promotion = await PromotionModel.findByPk(body.id);
-      await promotion.destroy();
+      // const promotion = await PromotionModel.findByPk(body.id);
+      // await promotion.destroy();
+      await PromotionModel.destroy({
+        where: { id: typeof body.id === 'number' || typeof body.id === 'number' ? body.id : { [Op.in]: body.id } },
+      })
       return resMsg(200, [], 1);
     } catch (error) {
       return resMsg();

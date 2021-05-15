@@ -65,5 +65,5 @@ export class UpdateGoodsBody {
 
 export class DeleteGoodsBody {
 
-  id: number;
+  id: number | string | number[];
 }

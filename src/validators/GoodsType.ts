@@ -42,7 +42,7 @@ export class UpdateGoodsTypeBody {
 
 export class DeleteGoodsTypeBody {
 
-  id: number;
+  id: number | string | number[];
 
   adminUserId: number;
 }

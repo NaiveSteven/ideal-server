@@ -77,8 +77,11 @@ class GoodsTypeController {
     @Body() body: DeleteGoodsTypeBody
   ) {
     try {
-      const goodsType = await GoodsTypeModel.findByPk(body.id);
-      await goodsType.destroy();
+      // const goodsType = await GoodsTypeModel.findByPk(body.id);
+      // await goodsType.destroy();
+      await GoodsTypeModel.destroy({
+        where: { id: typeof body.id === 'number' || typeof body.id === 'number' ? body.id : { [Op.in]: body.id } },
+      })
       return resMsg(200, [], 1);
     } catch (error) {
       return resMsg();
