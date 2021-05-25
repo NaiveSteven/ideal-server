@@ -17,10 +17,10 @@ module.exports = {
           type: Sequelize.STRING(255),
           allowNull: false,
         },
-        // permissions: {
-        //   type: Sequelize.ARRAY(Sequelize.TEXT),
-        //   allowNull: false,
-        // },
+        permissions: {
+          type: Sequelize.STRING(10000),
+          allowNull: false,
+        },
         remark: {
           type: Sequelize.STRING(255),
           allowNull: false,

@@ -8,10 +8,8 @@ import {
     PrimaryKey,
     Table,
     UpdatedAt,
-    HasMany
 } from "sequelize-typescript";
 import { AdminUser } from './AdminUser';
-import { Permission } from './Permission';
 
 @Table({
     tableName: 'Role'
@@ -36,8 +34,11 @@ export class Role extends Model<Role> {
     })
     name: string;
 
-    @HasMany(() => Permission)
-    permissions: Permission[];
+    @Column({
+        type: DataType.STRING(10000),
+        allowNull: false
+    })
+    permissions: string;
 
     @Column({
         type: DataType.STRING(255),
