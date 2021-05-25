@@ -67,7 +67,7 @@ class PermissionController {
       let pion = await PermissionModel.findByPk(id);
       pion = updateAttr(pion, { id, name, adminUserId, module_name, permission, permission_type });
       await pion.save();
-      return resMsg(200, permission, 1);
+      return resMsg(200, pion, 1);
     } catch (error) {
       return resMsg();
     }
