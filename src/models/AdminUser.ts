@@ -34,6 +34,12 @@ export class AdminUser extends Model<AdminUser> {
   })
   password: string;
 
+  @Column({
+    type: DataType.STRING(10000),
+    allowNull: false
+  })
+  roles: string;
+
   @CreatedAt
   createdAt: Date;
 

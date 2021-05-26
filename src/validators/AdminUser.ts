@@ -13,4 +13,28 @@ export class AdminUserBody {
   // })
   password: string;
 
+  roles: string;
+
+}
+
+export class GetAdminUserListBody {
+
+  page: string;
+
+  limit: string;
+
+  keyword: string;
+}
+export class UpdateAdminUserBody {
+
+  id: number;
+
+  password: string;
+
+  roles: string;
+}
+
+export class DeleteAdminUserBody {
+
+  id: number | string | number[];
 }
