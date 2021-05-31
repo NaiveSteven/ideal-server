@@ -9,6 +9,10 @@ module.exports = {
           allowNull: false,
           autoIncrement: true,
         },
+        adminUserId: {
+          type: Sequelize.INTEGER.UNSIGNED,
+          allowNull: false,
+        },
         goodsTypeId: {
           type: Sequelize.INTEGER.UNSIGNED,
           allowNull: false,

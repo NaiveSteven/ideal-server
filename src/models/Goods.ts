@@ -11,6 +11,7 @@ import {
 } from "sequelize-typescript";
 import { GoodsType } from './GoodsType';
 import { Brand } from './Brand';
+import { AdminUser } from './AdminUser';
 
 @Table({
   tableName: 'Goods'
@@ -21,6 +22,13 @@ export class Goods extends Model<Goods> {
   @AutoIncrement
   @Column
   id: number;
+
+  @ForeignKey(() => AdminUser)
+  @Column({
+    type: DataType.INTEGER.UNSIGNED,
+    allowNull: false
+  })
+  adminUserId: number; 
 
   @ForeignKey(() => GoodsType)
   @Column({

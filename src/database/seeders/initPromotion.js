@@ -12,6 +12,7 @@ module.exports = {
       const id = index + 1;
       return {
         id,
+        adminUserId: index % 2 === 0 ? 1 : 2,
         goodsTypeId: typeId,
         brandId: brandId[index],
         name: 'Goods-' + id,

@@ -13,6 +13,7 @@ module.exports = {
       return {
         id,
         userId: typeId,
+        adminUserId: index % 2 === 0 ? 1 : 2,
         goodsId: brandId[index],
         price: 10 + index,
         count: 10 + index,
