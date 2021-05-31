@@ -21,7 +21,8 @@ class PromotionController {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
       const { goodsTypeId, brandId, state, keyword } = body;
-      const searchObj = getUncertainSqlObj({ goodsTypeId, brandId, state });
+      const adminUserId = ctx.userInfo.id;
+      const searchObj = getUncertainSqlObj({ goodsTypeId, brandId, state, adminUserId });
       const nameFilter = keyword ? {
         name: {
           [Op.like]: `%${keyword}%`,
@@ -49,8 +50,9 @@ class PromotionController {
   ) {
     try {
       const { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId, state, saleNum } = body;
+      const adminUserId = ctx.userInfo.id;
       let promotion = new PromotionModel();
-      promotion = addAttr(promotion, { name, goodsTypeId, price, desc, count, marketPrice, imageUrl, state, size, brandId, saleNum });
+      promotion = addAttr(promotion, { adminUserId, name, goodsTypeId, price, desc, count, marketPrice, imageUrl, state, size, brandId, saleNum });
       await promotion.save();
       return resMsg(200, promotion, 1);
     } catch (error) {

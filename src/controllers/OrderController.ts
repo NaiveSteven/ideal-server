@@ -21,7 +21,8 @@ class OrderController {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
       const { userId, state, deal_state, keyword } = body;
-      const searchObj = getUncertainSqlObj({ userId, state, deal_state });
+      const adminUserId = ctx.userInfo.id;
+      const searchObj = getUncertainSqlObj({ adminUserId, userId, state, deal_state });
       const phoneFilter = keyword ? {
         phone: {
           [Op.like]: `%${keyword}%`,
@@ -49,8 +50,9 @@ class OrderController {
   ) {
     try {
       const { userId, goodsId, phone, address, price, count, state, deal_state } = body;
+      const adminUserId = ctx.userInfo.id;
       let order = new OrderModel();
-      order = addAttr(order, { userId, goodsId, phone, address, price, count, state, deal_state });
+      order = addAttr(order, { adminUserId, userId, goodsId, phone, address, price, count, state, deal_state });
       await order.save();
       return resMsg(200, order, 1);
     } catch (error) {

@@ -21,7 +21,7 @@ class PermissionController {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
       const { keyword, permission_type } = body;
-      const adminUserId = ctx.userInfo.adminUserId;
+      const adminUserId = ctx.userInfo.id;
       const searchObj = getUncertainSqlObj({ adminUserId, permission_type });
       const nameFilter = keyword ? {
         name: {
@@ -49,7 +49,7 @@ class PermissionController {
   ) {
     try {
       const { name, module_name, permission, permission_type } = body;
-      const adminUserId = ctx.userInfo.adminUserId;
+      const adminUserId = ctx.userInfo.id;
       let pion = new PermissionModel();
       pion = addAttr(pion, { name, adminUserId, module_name, permission, permission_type });
       await pion.save();

@@ -21,7 +21,9 @@ class GoodsController {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
       const { goodsTypeId, brandId, state, keyword } = body;
-      const searchObj = getUncertainSqlObj({ goodsTypeId, brandId, state });
+      const adminUserId = ctx.userInfo.id;
+      console.log(adminUserId, 'adminUserIdadminUserIdadminUserIdadminUserIdadminUserId')
+      const searchObj = getUncertainSqlObj({ goodsTypeId, brandId, state, adminUserId });
       const nameFilter = keyword ? {
         name: {
           [Op.like]: `%${keyword}%`,
@@ -49,8 +51,9 @@ class GoodsController {
   ) {
     try {
       const { name, goodsTypeId, price, desc, count, state, marketPrice, imageUrl, size, brandId, saleNum } = body;
+      const adminUserId = ctx.userInfo.id;
       let goods = new GoodsModel();
-      goods = addAttr(goods, { name, goodsTypeId, price, desc, state, count, marketPrice, imageUrl, size, brandId, saleNum });
+      goods = addAttr(goods, { adminUserId, name, goodsTypeId, price, desc, state, count, marketPrice, imageUrl, size, brandId, saleNum });
       await goods.save();
       return resMsg(200, goods, 1);
     } catch (error) {

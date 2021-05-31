@@ -7,6 +7,10 @@ module.exports = {
         allowNull: false,
         autoIncrement: true
       },
+      adminUserId: {
+        type: Sequelize.INTEGER.UNSIGNED,
+        allowNull: false,
+      },
       goodsId: {
         type: Sequelize.INTEGER.UNSIGNED,
         allowNull: false

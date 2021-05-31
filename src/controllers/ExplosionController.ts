@@ -21,7 +21,8 @@ class ExplosionController {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
       const { goodsTypeId, brandId, state, keyword } = body;
-      const searchObj = getUncertainSqlObj({ goodsTypeId, brandId, state });
+      const adminUserId = ctx.userInfo.id;
+      const searchObj = getUncertainSqlObj({ goodsTypeId, brandId, state, adminUserId });
       const nameFilter = keyword ? {
         name: {
           [Op.like]: `%${keyword}%`,
@@ -49,8 +50,9 @@ class ExplosionController {
   ) {
     try {
       const { name, goodsTypeId, price, desc, count, state, marketPrice, imageUrl, size, brandId, saleNum } = body;
+      const adminUserId = ctx.userInfo.id;
       let explosion = new ExplosionModel();
-      explosion = addAttr(explosion, { state, name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId, saleNum });
+      explosion = addAttr(explosion, { adminUserId, state, name, goodsTypeId, price, desc, count, marketPrice, imageUrl, size, brandId, saleNum });
       await explosion.save();
       return resMsg(200, explosion, 1);
     } catch (error) {

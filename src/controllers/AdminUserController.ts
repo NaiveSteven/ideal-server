@@ -51,8 +51,8 @@ class AdminUserController {
     }
   }
 
-  @Post('/getGoodsList')
-  async getGoodsList(
+  @Post('/getAdminUserList')
+  async getAdminUserList(
     @Ctx() ctx: Context,
     @Body() body: GetAdminUserListBody
   ) {

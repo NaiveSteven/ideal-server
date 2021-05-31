@@ -21,7 +21,7 @@ class UserController {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
       const { keyword } = body;
-      const adminUserId = ctx.userInfo.adminUserId;
+      const adminUserId = ctx.userInfo.id;
       const searchObj = getUncertainSqlObj({ adminUserId });
       const nameFilter = keyword ? {
         name: {
