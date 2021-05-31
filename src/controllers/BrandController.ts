@@ -20,11 +20,14 @@ class BrandController {
     try {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
-      const { adminUserId, keyword } = body;
+      const { keyword } = body;
+      const adminUserId = ctx.userInfo.adminUserId;
       const searchObj = getUncertainSqlObj({ adminUserId });
-      const nameFilter = keyword ? {name: {
-        [Op.like]: `%${keyword}%`,
-      }} : {};
+      const nameFilter = keyword ? {
+        name: {
+          [Op.like]: `%${keyword}%`,
+        }
+      } : {};
       const brand = await BrandModel.findAndCountAll({
         where: {
           ...searchObj,
@@ -45,8 +48,9 @@ class BrandController {
     @Body() body: AddBrandBody
   ) {
     try {
-      const { name, adminUserId } = body;
+      const { name } = body;
       let brand = new BrandModel();
+      const adminUserId = ctx.userInfo.adminUserId
       brand = addAttr(brand, { name, adminUserId });
       await brand.save();
       return resMsg(200, brand, 1);

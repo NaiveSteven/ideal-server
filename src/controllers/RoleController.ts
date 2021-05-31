@@ -20,7 +20,8 @@ class RoleController {
     try {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
-      const { adminUserId, keyword } = body;
+      const { keyword } = body;
+      const adminUserId = ctx.userInfo.adminUserId;
       const searchObj = getUncertainSqlObj({ adminUserId });
       const nameFilter = keyword ? {
         name: {
@@ -47,7 +48,8 @@ class RoleController {
     @Body() body: AddRoleBody
   ) {
     try {
-      const { name, adminUserId, remark, permissions } = body;
+      const { name, remark, permissions } = body;
+      const adminUserId = ctx.userInfo.adminUserId;
       let role = new RoleModel();
       role = addAttr(role, { name, adminUserId, remark, permissions });
       await role.save();
@@ -63,9 +65,9 @@ class RoleController {
     @Body() body: UpdateRoleBody
   ) {
     try {
-      const { id, name, adminUserId, remark, permissions } = body;
+      const { id, name, remark, permissions } = body;
       let role = await RoleModel.findByPk(id);
-      role = updateAttr(role, { id, name, adminUserId, remark, permissions });
+      role = updateAttr(role, { id, name, remark, permissions });
       await role.save();
       return resMsg(200, role, 1);
     } catch (error) {

@@ -20,11 +20,14 @@ class UserController {
     try {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
-      const { adminUserId, keyword } = body;
+      const { keyword } = body;
+      const adminUserId = ctx.userInfo.adminUserId;
       const searchObj = getUncertainSqlObj({ adminUserId });
-      const nameFilter = keyword ? {name: {
-        [Op.like]: `%${keyword}%`,
-      }} : {};
+      const nameFilter = keyword ? {
+        name: {
+          [Op.like]: `%${keyword}%`,
+        }
+      } : {};
       const userList = await UserModel.findAndCountAll({
         where: {
           ...searchObj,
@@ -32,7 +35,7 @@ class UserController {
         },
         limit,
         offset,
-        attributes: ['id', 'name', 'createdAt', 'updatedAt']
+        attributes: ['id', 'name', 'integral', 'createdAt', 'updatedAt']
       });
       return resMsg(200, userList, 1);
     } catch (error) {

@@ -22,9 +22,11 @@ class ExplosionController {
       const offset = (Number(body.page) - 1) * limit;
       const { goodsTypeId, brandId, state, keyword } = body;
       const searchObj = getUncertainSqlObj({ goodsTypeId, brandId, state });
-      const nameFilter = keyword ? {name: {
-        [Op.like]: `%${keyword}%`,
-      }} : {};
+      const nameFilter = keyword ? {
+        name: {
+          [Op.like]: `%${keyword}%`,
+        }
+      } : {};
       const params = {
         where: {
           ...searchObj,

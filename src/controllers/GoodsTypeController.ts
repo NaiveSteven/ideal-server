@@ -20,11 +20,14 @@ class GoodsTypeController {
     try {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
-      const { adminUserId, keyword } = body;
+      const { keyword } = body;
+      const adminUserId = ctx.userInfo.adminUserId;
       const searchObj = getUncertainSqlObj({ adminUserId });
-      const nameFilter = keyword ? {name: {
-        [Op.like]: `%${keyword}%`,
-      }} : {};
+      const nameFilter = keyword ? {
+        name: {
+          [Op.like]: `%${keyword}%`,
+        }
+      } : {};
       const GoodsType = await GoodsTypeModel.findAndCountAll({
         where: {
           ...searchObj,
@@ -46,7 +49,8 @@ class GoodsTypeController {
     @Body() body: AddGoodsTypeBody
   ) {
     try {
-      const { name, adminUserId } = body;
+      const { name } = body;
+      const adminUserId = ctx.userInfo.adminUserId;
       let goodsType = new GoodsTypeModel();
       goodsType = addAttr(goodsType, { name, adminUserId });
       await goodsType.save();

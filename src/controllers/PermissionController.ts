@@ -20,7 +20,8 @@ class PermissionController {
     try {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
-      const { adminUserId, keyword, permission_type } = body;
+      const { keyword, permission_type } = body;
+      const adminUserId = ctx.userInfo.adminUserId;
       const searchObj = getUncertainSqlObj({ adminUserId, permission_type });
       const nameFilter = keyword ? {
         name: {
@@ -47,7 +48,8 @@ class PermissionController {
     @Body() body: AddPermissionBody
   ) {
     try {
-      const { name, adminUserId, module_name, permission, permission_type } = body;
+      const { name, module_name, permission, permission_type } = body;
+      const adminUserId = ctx.userInfo.adminUserId;
       let pion = new PermissionModel();
       pion = addAttr(pion, { name, adminUserId, module_name, permission, permission_type });
       await pion.save();
@@ -63,9 +65,9 @@ class PermissionController {
     @Body() body: UpdatePermissionBody
   ) {
     try {
-      const { id, name, adminUserId, module_name, permission, permission_type } = body;
+      const { id, name, module_name, permission, permission_type } = body;
       let pion = await PermissionModel.findByPk(id);
-      pion = updateAttr(pion, { id, name, adminUserId, module_name, permission, permission_type });
+      pion = updateAttr(pion, { id, name, module_name, permission, permission_type });
       await pion.save();
       return resMsg(200, pion, 1);
     } catch (error) {
