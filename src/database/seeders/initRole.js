@@ -40,7 +40,7 @@ module.exports = {
           id,
           adminUserId: 1,
           name: "Role-" + id,
-          permissions: JSON.stringify(permissionsList),
+          permissionsID: "1,2,3,4",
           remark: "remark" + id,
           createdAt: date,
           updatedAt: date,

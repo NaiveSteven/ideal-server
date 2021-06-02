@@ -48,10 +48,10 @@ class RoleController {
     @Body() body: AddRoleBody
   ) {
     try {
-      const { name, remark, permissions } = body;
+      const { name, remark, permissionsID } = body;
       const adminUserId = ctx.userInfo.id;
       let role = new RoleModel();
-      role = addAttr(role, { name, adminUserId, remark, permissions });
+      role = addAttr(role, { name, adminUserId, remark, permissionsID });
       await role.save();
       return resMsg(200, role, 1);
     } catch (error) {

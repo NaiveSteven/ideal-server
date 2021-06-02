@@ -17,7 +17,7 @@ module.exports = {
           type: Sequelize.STRING(255),
           allowNull: false,
         },
-        permissions: {
+        permissionsID: {
           type: Sequelize.STRING(10000),
           allowNull: false,
         },

@@ -38,7 +38,12 @@ export class AdminUser extends Model<AdminUser> {
     type: DataType.STRING(10000),
     allowNull: false
   })
-  roles: string;
+  set roles(val: any) {
+    this.setDataValue('roles', val);
+  }
+  get roles() {
+    return (this.getDataValue('roles')).split(',');
+  }
 
   @CreatedAt
   createdAt: Date;

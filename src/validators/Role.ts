@@ -30,7 +30,7 @@ export class AddRoleBody {
 
   adminUserId: number;
 
-  permissions: string;
+  permissionsID: string;
 
   remark: string;
 }

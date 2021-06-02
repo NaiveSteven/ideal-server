@@ -38,7 +38,12 @@ export class Role extends Model<Role> {
         type: DataType.STRING(10000),
         allowNull: false
     })
-    permissions: string;
+    set permissionsID(val: any) {
+        this.setDataValue('permissionsID', val);
+    }
+    get permissionsID() {
+        return (this.getDataValue('permissionsID')).split(',');
+    }
 
     @Column({
         type: DataType.STRING(255),
