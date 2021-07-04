@@ -65,9 +65,9 @@ class RoleController {
     @Body() body: UpdateRoleBody
   ) {
     try {
-      const { id, name, remark, permissions } = body;
+      const { id, name, remark, permissionsID } = body;
       let role = await RoleModel.findByPk(id);
-      role = updateAttr(role, { id, name, remark, permissions });
+      role = updateAttr(role, { id, name, remark, permissionsID });
       await role.save();
       return resMsg(200, role, 1);
     } catch (error) {

@@ -43,7 +43,7 @@ export class UpdateRoleBody {
 
   adminUserId: number;
 
-  permissions: string;
+  permissionsID: string;
 
   remark: string;
 }
