@@ -1,7 +1,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable(
-      "Permission",
+      "Module",
       {
         id: {
           type: Sequelize.BIGINT,
@@ -13,20 +13,12 @@ module.exports = {
           type: Sequelize.INTEGER.UNSIGNED,
           allowNull: false,
         },
-        moduleId: {
-          type: Sequelize.INTEGER.UNSIGNED,
-          allowNull: false,
-        },
-        name: {
+        moduleName: {
           type: Sequelize.STRING(255),
           allowNull: false,
         },
-        permission: {
+        remark: {
           type: Sequelize.STRING(255),
-          allowNull: false,
-        },
-        permission_type: {
-          type: Sequelize.INTEGER,
           allowNull: false,
         },
         createdAt: {
@@ -45,6 +37,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("Permission");
+    return queryInterface.dropTable("Module");
   },
 };

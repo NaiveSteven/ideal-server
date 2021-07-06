@@ -27,10 +27,10 @@ module.exports = {
         return {
           id,
           adminUserId: 1,
+          moduleId: typeList[index],
           name: "权限点-" + id,
           permission: permissionList[index],
           permission_type: typeList[index],
-          module_name: "moduleNameList-" + id,
           createdAt: date,
           updatedAt: date,
         };

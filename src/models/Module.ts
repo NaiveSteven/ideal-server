@@ -10,12 +10,11 @@ import {
     UpdatedAt
 } from "sequelize-typescript";
 import { AdminUser } from './AdminUser';
-import { Module } from './Module';
 
 @Table({
-    tableName: 'Permission'
+    tableName: 'Module'
 })
-export class Permission extends Model<Permission> {
+export class Module extends Model<Module> {
 
     @PrimaryKey
     @AutoIncrement
@@ -29,31 +28,17 @@ export class Permission extends Model<Permission> {
     })
     adminUserId: number;
 
-    @ForeignKey(() => Module)
     @Column({
-        type: DataType.INTEGER.UNSIGNED,
+        type: DataType.STRING(255),
         allowNull: false
     })
-    moduleId: number;
+    moduleName: string;
 
     @Column({
         type: DataType.STRING(255),
         allowNull: false
     })
-    name: string;
-
-    @Column({
-        type: DataType.STRING(255),
-        allowNull: false
-    })
-    permission: string;
-
-    // 权限点类别 1菜单 2按钮 3数据
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false
-    })
-    permission_type: number;
+    remark: string;
 
     @CreatedAt
     createdAt: Date;
