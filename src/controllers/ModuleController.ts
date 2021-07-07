@@ -24,7 +24,7 @@ class ModuleController {
       const adminUserId = ctx.userInfo.id;
       const searchObj = getUncertainSqlObj({ adminUserId });
       const nameFilter = keyword ? {
-        name: {
+        moduleName: {
           [Op.like]: `%${keyword}%`,
         }
       } : {};
