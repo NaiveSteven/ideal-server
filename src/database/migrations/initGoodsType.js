@@ -11,6 +11,14 @@ module.exports = {
                 type: Sequelize.INTEGER.UNSIGNED,
                 allowNull: false
             },
+            pid: {
+                type: Sequelize.INTEGER.UNSIGNED,
+                allowNull: true
+            },
+            children: {
+                type: Sequelize.STRING(255),
+                allowNull: true
+            },
             name: {
                 type: Sequelize.STRING(255),
                 allowNull: false

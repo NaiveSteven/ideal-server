@@ -8,7 +8,7 @@ import { Context } from 'koa';
 import { Op } from 'sequelize';
 import { GetGoodsListBody, AddGoodsTypeBody, UpdateGoodsTypeBody, DeleteGoodsTypeBody } from '../validators/GoodsType';
 import { GoodsType as GoodsTypeModel } from '../models/GoodsType';
-import { getUncertainSqlObj, resMsg, addAttr, } from '../utils/Utils';
+import { getUncertainSqlObj, resMsg, addAttr, getTreeList } from '../utils/Utils';
 
 @Controller('/goodsType')
 class GoodsTypeController {
@@ -33,9 +33,10 @@ class GoodsTypeController {
           ...searchObj,
           ...nameFilter,
         },
-        limit,
-        offset,
+        limit: 1000,
+        offset: 0,
       });
+      GoodsType.rows = getTreeList(GoodsType.rows)
       return resMsg(200, GoodsType, 1);
     } catch (e) {
       return resMsg();
@@ -49,10 +50,10 @@ class GoodsTypeController {
     @Body() body: AddGoodsTypeBody
   ) {
     try {
-      const { name } = body;
+      const { name, pid } = body;
       const adminUserId = ctx.userInfo.id;
       let goodsType = new GoodsTypeModel();
-      goodsType = addAttr(goodsType, { name, adminUserId });
+      goodsType = addAttr(goodsType, { name, adminUserId, pid });
       await goodsType.save();
       return resMsg(200, goodsType, 1);
     } catch (error) {
@@ -68,6 +69,7 @@ class GoodsTypeController {
     try {
       const goodsType = await GoodsTypeModel.findByPk(body.id);
       goodsType.name = body.name || goodsType.name;
+      goodsType.pid = body.pid || goodsType.pid;
       await goodsType.save();
       return resMsg(200, goodsType, 1);
     } catch (error) {
@@ -84,7 +86,14 @@ class GoodsTypeController {
       // const goodsType = await GoodsTypeModel.findByPk(body.id);
       // await goodsType.destroy();
       await GoodsTypeModel.destroy({
-        where: { id: typeof body.id === 'number' || typeof body.id === 'number' ? body.id : { [Op.in]: body.id } },
+        where: {
+          id: typeof body.id === 'number' || typeof body.id === 'number' ? body.id : { [Op.in]: body.id },
+        },
+      })
+      await GoodsTypeModel.destroy({
+        where: {
+          pid: { [Op.in]: body.id },
+        },
       })
       return resMsg(200, [], 1);
     } catch (error) {

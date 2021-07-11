@@ -48,3 +48,51 @@ export const updateAttr = (model: any, params: any) => {
   }
   return model;
 }
+
+interface TreeListItem {
+  id: number;
+  pid: number[];
+  children: TreeListItem[];
+}
+
+// 拼接树结构
+export const getTreeList = (list: any) => {
+  let temp = {} as any
+  let tree = [] as any
+  for (let i in list) {
+    if (list.hasOwnProperty(i)) {
+      temp[list[i].id] = list[i]
+    }
+  }
+  for (let i in temp) {
+    if (temp.hasOwnProperty(i)) {
+      if (temp[i].pid) {
+        const parentId = temp[i].pid
+        if (!temp[parentId].children) {
+          temp[parentId].children = []
+        }
+        temp[parentId].children.push(temp[i])
+      } else {
+        tree.push(temp[i])
+      }
+    }
+  }
+  console.log(tree, 'tree')
+  return tree
+}
+
+
+
+// 找到树结构当前项
+export const getTreeListItem = (id: number, list: TreeListItem[]) => {
+  let selectedItem = {} as TreeListItem;
+  list.forEach((item) => {
+    if (item.id === id) {
+      selectedItem = item;
+    }
+    if (item.children && item.children.length > 0) {
+      getTreeListItem(id, item.children);
+    }
+  })
+  return selectedItem;
+}

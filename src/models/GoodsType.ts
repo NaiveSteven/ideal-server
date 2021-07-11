@@ -29,6 +29,18 @@ export class GoodsType extends Model<GoodsType> {
     adminUserId: number;
 
     @Column({
+        type: DataType.INTEGER.UNSIGNED,
+        allowNull: true
+    })
+    pid: number;
+
+    @Column({
+        type: DataType.STRING(255),
+        allowNull: true
+    })
+    children: string;
+
+    @Column({
         type: DataType.STRING(255),
         allowNull: false
     })

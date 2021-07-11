@@ -29,6 +29,8 @@ export class AddGoodsTypeBody {
   name: string;
 
   adminUserId: number;
+
+  pid: number | null;
 }
 
 export class UpdateGoodsTypeBody {
@@ -38,6 +40,8 @@ export class UpdateGoodsTypeBody {
   adminUserId: number;
 
   name: string;
+
+  pid: number | null;
 }
 
 export class DeleteGoodsTypeBody {
