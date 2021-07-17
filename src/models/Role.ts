@@ -39,7 +39,11 @@ export class Role extends Model<Role> {
         allowNull: false
     })
     set permissionsID(val: any) {
-        this.setDataValue('permissionsID', val);
+        if (Array.isArray(val)) {
+            this.setDataValue('permissionsID', val.join());
+        } else {
+            this.setDataValue('permissionsID', val);
+        }
     }
     get permissionsID() {
         return (this.getDataValue('permissionsID')).split(',');
