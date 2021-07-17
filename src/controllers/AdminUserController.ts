@@ -10,7 +10,7 @@ import { AdminUserBody, GetAdminUserListBody, DeleteAdminUserBody, UpdateAdminUs
 import { AdminUser as adminUserModel } from '../models/AdminUser';
 import jwt from 'jsonwebtoken';
 import configs from '../configs';
-import { resMsg, addAttr, updateAttr } from '../utils/Utils';
+import { resMsg, addAttr, updateAttr, randomWord } from '../utils/Utils';
 
 @Controller('/admin')
 class AdminUserController {
@@ -60,15 +60,9 @@ class AdminUserController {
       const limit = Number(body.limit);
       const offset = (Number(body.page) - 1) * limit;
       const { keyword } = body;
-      // const searchObj = getUncertainSqlObj({ goodsTypeId, brandId, state });
-      // const nameFilter = keyword ? {
-      //   name: {
-      //     [Op.like]: `%${keyword}%`,
-      //   }
-      // } : {};
       const params = {
         where: keyword ? {
-          name: {
+          username: {
             [Op.like]: `%${keyword}%`,
           }
         } : {},
@@ -88,9 +82,10 @@ class AdminUserController {
     @Body() body: AdminUserBody
   ) {
     try {
-      const { username, password, roles } = body;
+      let { username, password, roles, phone, avatar, nickname, adminUserId } = body;
+      adminUserId = randomWord(false, 24, 24);
       let adminUser = new adminUserModel();
-      adminUser = addAttr(adminUser, { username, password, roles });
+      adminUser = addAttr(adminUser, { username, password, roles, phone, avatar, nickname, adminUserId });
       await adminUser.save();
       return resMsg(200, adminUser, 1);
     } catch (error) {
@@ -104,11 +99,16 @@ class AdminUserController {
     @Body() body: UpdateAdminUserBody
   ) {
     try {
-      const { password, id, roles } = body;
+      const { password, id, roles, phone, avatar, nickname, adminUserId } = body;
       let adminUser = await adminUserModel.findByPk(id);
-      adminUser = updateAttr(adminUser, { password, id, roles });
-      await adminUser.save();
-      return resMsg(200, adminUser, 1);
+      if (adminUserId !== adminUser.adminUserId) {
+        return resMsg(9001, [], -1);
+      } 
+      else {
+        adminUser = updateAttr(adminUser, { password, id, roles, phone, avatar, nickname });
+        await adminUser.save();
+        return resMsg(200, adminUser, 1);
+      }
     } catch (error) {
       return resMsg();
     }
@@ -120,10 +120,15 @@ class AdminUserController {
     @Body() body: DeleteAdminUserBody
   ) {
     try {
-      await adminUserModel.destroy({
-        where: { id: typeof body.id === 'number' || typeof body.id === 'number' ? body.id : { [Op.in]: body.id } },
-      })
-      return resMsg(200, [], 1);
+      let adminUser = await adminUserModel.findByPk(body.id);
+      if (body.adminUserId !== adminUser.adminUserId) {
+        return resMsg(9001, [], -1);
+      } else {
+        await adminUser.destroy({
+          where: { id: body.id },
+        })
+      }
+      return resMsg(200, [], -1);
     } catch (error) {
       return resMsg();
     }

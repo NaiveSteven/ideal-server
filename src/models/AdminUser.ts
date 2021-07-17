@@ -22,6 +22,31 @@ export class AdminUser extends Model<AdminUser> {
   id: number;
 
   @AllowNull(false)
+  @Column({
+    type: DataType.STRING(32),
+  })
+  adminUserId: string;
+
+  @AllowNull(false)
+  @Column({
+    type: DataType.STRING(50)
+  })
+  phone: string;
+
+  @AllowNull(false)
+  @Column({
+    type: DataType.INTEGER.UNSIGNED,
+    allowNull: false
+  })
+  avatar: string;
+
+  @AllowNull(false)
+  @Column({
+    type: DataType.STRING(50)
+  })
+  nickname: string;
+
+  @AllowNull(false)
   @Unique(true)
   @Column({
     type: DataType.STRING(50)
@@ -39,7 +64,11 @@ export class AdminUser extends Model<AdminUser> {
     allowNull: false
   })
   set roles(val: any) {
-    this.setDataValue('roles', val);
+    if (Array.isArray(val)) {
+      this.setDataValue('roles', val.join());
+    } else {
+      this.setDataValue('roles', val);
+    }
   }
   get roles() {
     return (this.getDataValue('roles')).split(',');

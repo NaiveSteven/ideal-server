@@ -6,6 +6,26 @@ module.exports = {
                 autoIncrement: true,
                 primaryKey: true,
             },
+            adminUserId: {
+                type: Sequelize.STRING(50),
+                unique: true,
+                allowNull: false
+            },
+            nickName: {
+                type: Sequelize.STRING(50),
+                unique: false,
+                allowNull: false
+            },
+            phone: {
+                type: Sequelize.STRING(50),
+                unique: true,
+                allowNull: false,
+            },
+            avatar: {
+                type: Sequelize.STRING(500),
+                unique: false,
+                allowNull: false
+            },
             username: {
                 type: Sequelize.STRING(50),
                 unique: true,

@@ -15,6 +15,14 @@ export class AdminUserBody {
 
   roles: string;
 
+  adminUserId: string;
+
+  phone: string;
+
+  avatar: string;
+
+  nickname: string;
+
 }
 
 export class GetAdminUserListBody {
@@ -29,12 +37,22 @@ export class UpdateAdminUserBody {
 
   id: number;
 
+  adminUserId: string;
+
   password: string;
 
   roles: string;
+
+  phone: string;
+
+  avatar: string;
+
+  nickname: string;
 }
 
 export class DeleteAdminUserBody {
 
-  id: number | string | number[];
+  id: number | string;
+
+  adminUserId: string | number;
 }
