@@ -1,3 +1,10 @@
+/*
+ * @Description: Description
+ * @Author: mjqin
+ * @Date: 2020-11-18 19:12:14
+ * @LastEditors: mjqin
+ * @LastEditTime: 2021-08-03 23:05:14
+ */
 // import { IsNotEmpty, MaxLength, ValidateIf } from "class-validator";
 
 
@@ -55,4 +62,8 @@ export class DeleteAdminUserBody {
   id: number | string;
 
   adminUserId: string | number;
+}
+
+export class GetUserInfoBody {
+  id: number | string;
 }

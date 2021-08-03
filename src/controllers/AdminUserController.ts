@@ -2,11 +2,12 @@ import {
   Controller,
   Ctx,
   Post,
-  Body
+  Body,
+  Get
 } from 'koa-ts-controllers';
 import { Context } from 'koa';
 import { Op } from 'sequelize';
-import { AdminUserBody, GetAdminUserListBody, DeleteAdminUserBody, UpdateAdminUserBody } from '../validators/AdminUser';
+import { AdminUserBody, GetAdminUserListBody, DeleteAdminUserBody, UpdateAdminUserBody, GetUserInfoBody } from '../validators/AdminUser';
 import { AdminUser as adminUserModel } from '../models/AdminUser';
 import jwt from 'jsonwebtoken';
 import configs from '../configs';
@@ -103,7 +104,7 @@ class AdminUserController {
       let adminUser = await adminUserModel.findByPk(id);
       if (adminUserId !== adminUser.adminUserId) {
         return resMsg(9001, [], -1);
-      } 
+      }
       else {
         adminUser = updateAttr(adminUser, { password, id, roles, phone, avatar, nickname });
         await adminUser.save();
@@ -128,7 +129,21 @@ class AdminUserController {
           where: { id: body.id },
         })
       }
-      return resMsg(200, [], -1);
+      return resMsg(200, [], 1);
+    } catch (error) {
+      return resMsg();
+    }
+  }
+
+  @Get('/getAdminUserInfo')
+  public async getAdminUserInfo(
+    @Ctx() ctx: Context,
+    @Body() body: DeleteAdminUserBody
+  ) {
+    try {
+      const adminUserId = ctx.userInfo.id
+      let adminUser = await adminUserModel.findByPk(adminUserId);
+      return resMsg(200, adminUser, 1);
     } catch (error) {
       return resMsg();
     }
