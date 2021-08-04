@@ -1,3 +1,10 @@
+/*
+ * @Description: Description
+ * @Author: mjqin
+ * @Date: 2020-11-18 19:12:14
+ * @LastEditors: mjqin
+ * @LastEditTime: 2021-08-05 00:28:43
+ */
 const randomWord = (randomFlag, min, max) => {
 	let str = '',
 		range = min,	// 默认赋值为第二个参数，如果是随机产生位数会通过下面的if改变。
@@ -17,7 +24,7 @@ module.exports = {
   up(queryInterface, Sequelize) {
     const password = "123456"
     const date = new Date()
-    const roles = "1,2,3"
+    const roles = "1,2,3,4"
     return queryInterface.bulkInsert(
       "AdminUser",
       ["18851382719"].map((username, index) => {
