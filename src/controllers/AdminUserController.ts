@@ -46,7 +46,7 @@ class AdminUserController {
       };
 
       const token = jwt.sign(userInfo, configs.jwt.privateKey);
-      return resMsg(200, { userInfo, token, }, 1);
+      return resMsg(200, { userInfo: adminUser, token, }, 1);
     } catch (error) {
       return resMsg();
     }
